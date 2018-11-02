@@ -4,6 +4,7 @@ IMAGE = vscode
 VERSION = 0
 RELEASE = 3
 
+BIN_PREFIX ?= ~/bin
 
 build: Dockerfile
 	docker build -t $(REGISTRY)/$(IMAGE):$(VERSION)-$(RELEASE) .
@@ -24,3 +25,18 @@ run:
 		--device /dev/dri \
 		--name vscode \
 		${REGISTRY}/${IMAGE}:${VERSION}-${RELEASE} /usr/share/code/code
+
+
+install:
+	@echo "#! /bin/bash\\n\\n\
+docker run -d --rm \\\\\n\
+    -v /etc/localtime:/etc/localtime:ro \\\\\n\
+    -v /tmp/.X11-unix:/tmp/.X11-unix \\\\\n\
+    -v \$${HOME}:/home/user \\\\\n\
+    -v /var/run/docker.sock:/var/run/docker.sock \\\\\n\
+    -e "DISPLAY=unix\$${DISPLAY}" \\\\\n\
+    -e GOPATH=/home/user/etoinc/go \\\\\n\
+    --device /dev/dri \\\\\n\
+    --name vscode \\\\\n\
+    ${REGISTRY}/${IMAGE}:${VERSION}-${RELEASE} /usr/share/code/code" > ${BIN_PREFIX}/vscode 
+	@chmod +x ${BIN_PREFIX}/vscode
