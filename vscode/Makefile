@@ -6,13 +6,19 @@ RELEASE = 3
 
 BIN_PREFIX ?= ~/bin
 
-build: Dockerfile
+
+dep:
+	@docker image inspect etombini/go:latest > /dev/null || (echo "must build image etombini/go" && exit 1)
+
+build: dep
 	docker build -t $(REGISTRY)/$(IMAGE):$(VERSION)-$(RELEASE) .
 	docker tag $(REGISTRY)/$(IMAGE):$(VERSION)-$(RELEASE) $(REGISTRY)/$(IMAGE):$(VERSION)-latest
+	docker tag $(REGISTRY)/$(IMAGE):$(VERSION)-$(RELEASE) $(REGISTRY)/$(IMAGE):latest
 
 push: Dockerfile
 	docker push $(REGISTRY)/$(IMAGE):$(VERSION)-$(RELEASE)
 	docker push $(REGISTRY)/$(IMAGE):$(VERSION)-latest
+	docker push $(REGISTRY)/$(IMAGE):latest
 
 run:
 	echo ${HOME}
@@ -27,7 +33,7 @@ run:
 		${REGISTRY}/${IMAGE}:${VERSION}-${RELEASE} /usr/share/code/code
 
 
-install:
+install: build
 	@echo "#! /bin/bash\\n\\n\
 docker run -d --rm \\\\\n\
     -v /etc/localtime:/etc/localtime:ro \\\\\n\
@@ -38,5 +44,5 @@ docker run -d --rm \\\\\n\
     -e GOPATH=/home/user/etoinc/go \\\\\n\
     --device /dev/dri \\\\\n\
     --name vscode \\\\\n\
-    ${REGISTRY}/${IMAGE}:${VERSION}-${RELEASE} /usr/share/code/code" > ${BIN_PREFIX}/vscode 
+    ${REGISTRY}/${IMAGE} /usr/share/code/code" > ${BIN_PREFIX}/vscode 
 	@chmod +x ${BIN_PREFIX}/vscode
