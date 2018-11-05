@@ -2,7 +2,7 @@
 REGISTRY = etombini
 IMAGE = vscode
 VERSION = 0
-RELEASE = 3
+RELEASE = 5
 
 BIN_PREFIX ?= ~/bin
 

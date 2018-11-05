@@ -25,6 +25,7 @@ RUN apt-get update \
     libasound2 \
     libxtst6 \
     openssh-client \
+    fonts-dejavu \
     --no-install-recommends
 
 RUN echo "$PATH"
@@ -34,6 +35,7 @@ RUN useradd --create-home --home-dir $HOME --shell /bin/bash user \
  && chown -R user:user $HOME 
 
 ENV SHELL /bin/bash
+ENV USER user
 
 USER user
 
