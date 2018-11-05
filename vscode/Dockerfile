@@ -1,11 +1,8 @@
-FROM etombini/go:0-latest
+FROM etombini/go 
 
 LABEL maintainer "Elvis Tombini <elvis@mapom.me>"
 ENV DEBIAN_FRONTEND noninteractive
 
-
-
-# Install vscode
 RUN apt-get update \
  && apt-get install -y \
     curl \
@@ -15,6 +12,7 @@ RUN apt-get update \
  && apt-get upgrade -yqq \
  && apt-get clean
 
+# Install vscode
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg \
  && mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg \
  && echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list
