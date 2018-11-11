@@ -8,10 +8,12 @@ RELEASE = 2
 build: Dockerfile
 	docker build -t $(REGISTRY)/$(IMAGE):$(VERSION)-$(RELEASE) .
 	docker tag $(REGISTRY)/$(IMAGE):$(VERSION)-$(RELEASE) $(REGISTRY)/$(IMAGE):$(VERSION)-latest
+	docker tag $(REGISTRY)/$(IMAGE):$(VERSION)-$(RELEASE) $(REGISTRY)/$(IMAGE):latest
 
 push: Dockerfile
 	docker push $(REGISTRY)/$(IMAGE):$(VERSION)-$(RELEASE)
 	docker push $(REGISTRY)/$(IMAGE):$(VERSION)-latest
+	docker push $(REGISTRY)/$(IMAGE):latest
 
 run:
 	echo ${HOME}
