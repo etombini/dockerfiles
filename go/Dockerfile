@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		pkg-config \
  && rm -rf /var/lib/apt/lists/*
 
+#Needed for "go get" and pprof
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		curl \
 		git \
@@ -21,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         subversion \
         graphviz
 
-RUN curl https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz --output go.tgz; \
+RUN curl https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz --output go.tgz; \
 	tar -C /usr/local -xzf go.tgz; \
 	rm go.tgz; \
 	export PATH="/usr/local/go/bin:$PATH"; \

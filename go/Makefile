@@ -2,7 +2,7 @@
 REGISTRY = etombini
 IMAGE = go
 VERSION = 0
-RELEASE = 5 
+RELEASE = 6 
 
 
 build: Dockerfile
