@@ -2,7 +2,7 @@
 REGISTRY = etombini
 IMAGE = go-cli
 VERSION = 0
-RELEASE = 2
+RELEASE = 20200815
 
 
 build: Dockerfile
